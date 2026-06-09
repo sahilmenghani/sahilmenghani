@@ -174,3 +174,22 @@ if(savedTab){
     .classList.add("active");
 
 }
+if(savedTab){
+
+  tabs.forEach(t => t.classList.remove("active"));
+  contents.forEach(c => c.classList.remove("active"));
+
+  document
+    .querySelector(`[data-tab="${savedTab}"]`)
+    ?.classList.add("active");
+
+  document
+    .getElementById(savedTab)
+    ?.classList.add("active");
+
+}else{
+
+  tabs[0].classList.add("active");
+  contents[0].classList.add("active");
+
+}
