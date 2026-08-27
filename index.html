@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -134,11 +134,10 @@
       </div>
       <div class="project-tabs">
         <button class="tab-btn" data-tab="web">Web Design</button>
-        
-        <button class="tab-btn " data-tab="video">Video Editing</button>
 
+        <button class="tab-btn" data-tab="video">Video Editing</button>
       </div>
-      <div id="video" class="project-content ">
+      <div id="video" class="project-content">
         <h2>VIDEO PROJECTS</h2>
 
         <div class="gallery-grid reveal">
@@ -226,7 +225,7 @@
             <img src="web design/altf4.png" />
 
             <h3>ALTF4 Clone</h3>
-            
+
             <p>
               A personal learning project recreating the design and
               functionality of the ALTf4 website using HTML, CSS, and
@@ -237,11 +236,36 @@
             <a href="https://altf5clone.vercel.app" target="_blank">
               Live Demo
             </a>
-            <a href="https://github.com/sahilmenghani/clone-website" target="_blank" rel="noopener noreferrer">
+            <a
+              href="https://github.com/sahilmenghani/clone-website"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Github
             </a>
           </div>
-          
+          <div class="web-card">
+            <img src="web design/seedhemaut.png" />
+
+            <h3>Music Player</h3>
+
+            <p>
+              A custom interactive music player with album browsing, playlist
+              controls, real-time song information, and a dynamic visual
+              interface.
+            </p>
+
+            <a href="https://seedhemaut-nine.vercel.app" target="_blank">
+              Live Demo
+            </a>
+            <a
+              href="https://github.com/sahilmenghani/seedhemaut"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Github
+            </a>
+          </div>
           <div class="web-card">
             <img src="web design/portfolio.png" />
 
@@ -254,7 +278,11 @@
             <a href="https://sahilmenghani.vercel.app" target="_blank">
               Live Demo
             </a>
-            <a href="https://github.com/sahilmenghani/sahilmenghani" target="_blank" rel="noopener noreferrer">
+            <a
+              href="https://github.com/sahilmenghani/sahilmenghani"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Github
             </a>
           </div>
@@ -310,11 +338,7 @@
     <div class="video-modal" id="videoModal" onclick="closeVideo()">
       <span class="close-btn" onclick="closeVideo()">✕</span>
 
-      <video
-  id="fullVideo"
-  controls
-  onclick="event.stopPropagation()">
-
+      <video id="fullVideo" controls onclick="event.stopPropagation()">
         <source src="" type="video/mp4" />
       </video>
     </div>

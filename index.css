@@ -67,7 +67,8 @@ section {
 }
 
 .hero-banner {
-  animation: heroSlide 1.2s ease forwards,
+  animation:
+    heroSlide 1.2s ease forwards,
     heroFloat 5s ease-in-out infinite 1.2s;
 
   opacity: 0;
@@ -186,7 +187,8 @@ section {
 
   border-color: #38bdf8;
 
-  box-shadow: 0 0 15px rgba(56, 189, 248, 0.3),
+  box-shadow:
+    0 0 15px rgba(56, 189, 248, 0.3),
     0 0 35px rgba(56, 189, 248, 0.15);
 }
 .hero-menu a:nth-child(1) {
@@ -237,7 +239,8 @@ section {
 
   border-color: #38bdf8;
 
-  box-shadow: 0 0 20px rgba(56, 189, 248, 0.25),
+  box-shadow:
+    0 0 20px rgba(56, 189, 248, 0.25),
     0 0 40px rgba(56, 189, 248, 0.1);
 }
 
@@ -413,7 +416,8 @@ section {
 .skill-icon:hover {
   transform: translateY(-8px) scale(1.08);
 
-  box-shadow: 0 0 15px rgba(56, 189, 248, 0.3),
+  box-shadow:
+    0 0 15px rgba(56, 189, 248, 0.3),
     0 0 35px rgba(56, 189, 248, 0.15);
 }
 .meta-columns {
@@ -491,7 +495,8 @@ section {
 .project-card:hover {
   transform: translateY(-8px);
 
-  box-shadow: 0 0 20px rgba(56, 189, 248, 0.25),
+  box-shadow:
+    0 0 20px rgba(56, 189, 248, 0.25),
     0 0 40px rgba(56, 189, 248, 0.12);
 }
 .video-modal {
@@ -623,7 +628,9 @@ section {
 
   border: 4px solid #14b8ff;
 
-  box-shadow: 0 0 20px #14b8ff, 0 0 50px rgba(20, 184, 255, 0.5);
+  box-shadow:
+    0 0 20px #14b8ff,
+    0 0 50px rgba(20, 184, 255, 0.5);
 }
 
 .center-image img {
@@ -646,7 +653,9 @@ section {
   background: #07111f;
   border: 1px solid #14b8ff;
 
-  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease;
   will-change: transform;
 }
 
@@ -724,7 +733,9 @@ section {
   opacity: 0;
   transform: translateY(60px) scale(0.96);
 
-  transition: opacity 0.9s ease, transform 0.9s ease;
+  transition:
+    opacity 0.9s ease,
+    transform 0.9s ease;
 }
 
 .reveal.show {
@@ -750,7 +761,10 @@ section {
 
   transform: translateY(20px);
 
-  transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease,
+    visibility 0.4s;
 
   min-height: 900px;
 }
@@ -825,7 +839,7 @@ section {
 .web-grid {
   display: grid;
 
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
 
   gap: 25px;
 }
