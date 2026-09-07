@@ -8,10 +8,10 @@
 ========================================================= */
 
 const SUPABASE_URL =
-  "PASTE_YOUR_SUPABASE_URL_HERE";
+  "https://bflpxidetcwvvezrnejm.supabase.co";
 
 const SUPABASE_ANON_KEY =
-  "PASTE_YOUR_SUPABASE_PUBLIC_ANON_KEY_HERE";
+  "sb_publishable_CqcSMaNerpk-niIiqoWwGQ_kT-QrL8X";
 
 
 const supabaseClient =
@@ -104,7 +104,7 @@ async function loadPortfolioContent() {
 
   try {
 
-    await Promise.all([
+    await Promise.allSettled([
 
       loadSiteImages(),
 
@@ -114,16 +114,22 @@ async function loadPortfolioContent() {
 
     ]);
 
-
-    initialiseDynamicObservers();
-
-
   } catch (error) {
 
     console.error(
       "Portfolio loading error:",
       error
     );
+
+  } finally {
+
+    // Always wire up the reveal/video observers, even if one of the
+    // Supabase calls above failed or was slow. Previously this only ran
+    // inside the try block after Promise.all resolved, so any single
+    // failed request (bad network, RLS error, etc.) would leave every
+    // ".reveal" section - including #about - permanently stuck at
+    // opacity: 0 (it just looks "hidden").
+    initialiseDynamicObservers();
 
   }
 
