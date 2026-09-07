@@ -1,195 +1,807 @@
+/* =========================================================
+   PORTFOLIO
+   ========================================================= */
 
-      const lenis = new Lenis({
-        duration: 1.8,
-        smoothWheel: true,
-        wheelMultiplier: 0.8,
-        touchMultiplier: 1.2,
-        lerp: 0.08,
-      });
 
-      function raf(time) {
-        lenis.raf(time);
-        requestAnimationFrame(raf);
-      }
+/* =========================================================
+   SUPABASE
+========================================================= */
 
-      requestAnimationFrame(raf);
-    
-const modal=document.getElementById("videoModal");
-const player=document.getElementById("fullVideo");
+const SUPABASE_URL =
+  "PASTE_YOUR_SUPABASE_URL_HERE";
 
-function openVideo(src){
-   player.src = src;
-   modal.classList.add("active");
+const SUPABASE_ANON_KEY =
+  "PASTE_YOUR_SUPABASE_PUBLIC_ANON_KEY_HERE";
 
-   player.load();
-   player.play();
-}
 
-function closeVideo(){
-   modal.classList.remove("active");
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+  );
 
-   player.pause();
-   player.currentTime=0;
-}
-const observer = new IntersectionObserver((entries)=>{
 
-entries.forEach(entry=>{
+/* =========================================================
+   LENIS
+========================================================= */
 
-if(entry.isIntersecting){
+const lenis = new Lenis({
 
-entry.target.classList.add("show");
+  duration: 1.8,
 
-}
+  smoothWheel: true,
+
+  wheelMultiplier: 0.8,
+
+  touchMultiplier: 1.2,
+
+  lerp: 0.08,
 
 });
 
-},{
-threshold:.15
-});
 
-document
-.querySelectorAll(".reveal")
-.forEach(el=>observer.observe(el));
-const videos=document.querySelectorAll(".project-card video");
+function raf(time) {
 
-const videoObserver=
-new IntersectionObserver(entries=>{
+  lenis.raf(time);
 
-entries.forEach(entry=>{
-
-if(entry.isIntersecting){
-
-entry.target.play();
-
-}else{
-
-entry.target.pause();
+  requestAnimationFrame(raf);
 
 }
 
-});
 
-},{threshold:.4});
+requestAnimationFrame(raf);
 
-videos.forEach(video=>{
 
-videoObserver.observe(video);
+/* =========================================================
+   VIDEO MODAL
+========================================================= */
 
-});
-const sections=
-document.querySelectorAll("section");
+const modal =
+  document.getElementById(
+    "videoModal"
+  );
 
-const navLinks=
-document.querySelectorAll(".section-nav a");
 
-window.addEventListener("scroll",()=>{
+const player =
+  document.getElementById(
+    "fullVideo"
+  );
 
-let current="";
 
-sections.forEach(sec=>{
+function openVideo(src) {
 
-const top=
-window.scrollY;
+  player.src = src;
 
-if(top>=sec.offsetTop-200){
+  modal.classList.add(
+    "active"
+  );
 
-current=sec.id;
+  player.load();
 
-}
-
-});
-
-navLinks.forEach(link=>{
-
-link.classList.remove("active");
-
-if(
-link.getAttribute("href")
-=="#"+current
-){
-
-link.classList.add("active");
+  player.play();
 
 }
 
-});
 
-});
+function closeVideo() {
 
-const tabs =
-document.querySelectorAll(".tab-btn");
+  modal.classList.remove(
+    "active"
+  );
 
-const contents =
-document.querySelectorAll(".project-content");
+  player.pause();
 
-tabs.forEach(tab => {
+  player.currentTime = 0;
 
-  tab.addEventListener("click", () => {
+}
 
-    tabs.forEach(t =>
-      t.classList.remove("active")
+
+/* =========================================================
+   LOAD PORTFOLIO CONTENT
+========================================================= */
+
+async function loadPortfolioContent() {
+
+  try {
+
+    await Promise.all([
+
+      loadSiteImages(),
+
+      loadWebProjects(),
+
+      loadVideoProjects()
+
+    ]);
+
+
+    initialiseDynamicObservers();
+
+
+  } catch (error) {
+
+    console.error(
+      "Portfolio loading error:",
+      error
     );
-
-    contents.forEach(c =>
-      c.classList.remove("active")
-    );
-
-    tab.classList.add("active");
-
-    document
-      .getElementById(tab.dataset.tab)
-      .classList.add("active");
-      localStorage.setItem("activeTab", tab.dataset.tab);
-  });
-
-});
-document.addEventListener("keydown", e => {
-
-  if(e.key === "Escape"){
-
-    closeVideo();
 
   }
 
-});
+}
+
+
+/* =========================================================
+   SITE IMAGES
+========================================================= */
+
+async function loadSiteImages() {
+
+  const {
+    data,
+    error
+  } = await supabaseClient
+
+    .from("site_content")
+
+    .select("*")
+
+    .eq("id", 1)
+
+    .single();
+
+
+  if (error) {
+
+    console.error(error);
+
+    return;
+
+  }
+
+
+  const hero =
+    document.getElementById(
+      "heroImage"
+    );
+
+
+  const about =
+    document.getElementById(
+      "aboutImage"
+    );
+
+
+  const contact =
+    document.getElementById(
+      "contactImage"
+    );
+
+
+  if (
+    hero &&
+    data.hero_image
+  ) {
+
+    hero.src =
+      data.hero_image;
+
+  }
+
+
+  if (
+    about &&
+    data.about_image
+  ) {
+
+    about.src =
+      data.about_image;
+
+  }
+
+
+  if (
+    contact &&
+    data.contact_image
+  ) {
+
+    contact.src =
+      data.contact_image;
+
+  }
+
+}
+
+
+/* =========================================================
+   WEB PROJECTS
+========================================================= */
+
+async function loadWebProjects() {
+
+  const container =
+    document.getElementById(
+      "webProjectsContainer"
+    );
+
+
+  if (!container) return;
+
+
+  const {
+    data,
+    error
+  } = await supabaseClient
+
+    .from("web_projects")
+
+    .select("*")
+
+    .order(
+      "created_at",
+      {
+        ascending: false
+      }
+    );
+
+
+  if (error) {
+
+    console.error(error);
+
+    return;
+
+  }
+
+
+  container.innerHTML = "";
+
+
+  data.forEach(
+    project => {
+
+      const card =
+        document.createElement(
+          "div"
+        );
+
+
+      card.className =
+        "web-card";
+
+
+      card.innerHTML = `
+
+        <img
+          src="${escapeHTML(project.image_url)}"
+          alt="${escapeHTML(project.title)}"
+        >
+
+        <h3>
+          ${escapeHTML(project.title)}
+        </h3>
+
+        <p>
+          ${escapeHTML(project.description)}
+        </p>
+
+        ${
+          project.live_url
+            ? `
+              <a
+                href="${escapeHTML(project.live_url)}"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Live Demo
+              </a>
+            `
+            : ""
+        }
+
+        ${
+          project.github_url
+            ? `
+              <a
+                href="${escapeHTML(project.github_url)}"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Github
+              </a>
+            `
+            : ""
+        }
+
+      `;
+
+
+      container.appendChild(
+        card
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   VIDEO PROJECTS
+========================================================= */
+
+async function loadVideoProjects() {
+
+  const container =
+    document.getElementById(
+      "videoProjectsContainer"
+    );
+
+
+  if (!container) return;
+
+
+  const {
+    data,
+    error
+  } = await supabaseClient
+
+    .from("video_projects")
+
+    .select("*")
+
+    .order(
+      "created_at",
+      {
+        ascending: false
+      }
+    );
+
+
+  if (error) {
+
+    console.error(error);
+
+    return;
+
+  }
+
+
+  container.innerHTML = "";
+
+
+  data.forEach(
+    (project, index) => {
+
+      const card =
+        document.createElement(
+          "div"
+        );
+
+
+      card.className =
+        "project-card " +
+        (
+          index % 3 === 1
+            ? "portrait"
+            : "landscape"
+        );
+
+
+      card.innerHTML = `
+
+        <video
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+        >
+
+          <source
+            src="${escapeHTML(project.video_url)}"
+          >
+
+        </video>
+
+      `;
+
+
+      card.addEventListener(
+        "click",
+        () => {
+
+          openVideo(
+            project.video_url
+          );
+
+        }
+      );
+
+
+      container.appendChild(
+        card
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   OBSERVERS
+========================================================= */
+
+function initialiseDynamicObservers() {
+
+
+  /* ------------------------------
+     REVEAL
+  ------------------------------ */
+
+  const revealObserver =
+    new IntersectionObserver(
+
+      entries => {
+
+        entries.forEach(
+          entry => {
+
+            if (
+              entry.isIntersecting
+            ) {
+
+              entry.target.classList.add(
+                "show"
+              );
+
+            }
+
+          }
+        );
+
+      },
+
+      {
+        threshold: 0.15
+      }
+
+    );
+
+
+  document
+    .querySelectorAll(
+      ".reveal"
+    )
+    .forEach(
+      element => {
+
+        revealObserver.observe(
+          element
+        );
+
+      }
+    );
+
+
+  /* ------------------------------
+     PROJECT VIDEOS
+  ------------------------------ */
+
+  const videos =
+    document.querySelectorAll(
+      ".project-card video"
+    );
+
+
+  const videoObserver =
+    new IntersectionObserver(
+
+      entries => {
+
+        entries.forEach(
+          entry => {
+
+            if (
+              entry.isIntersecting
+            ) {
+
+              entry.target.play()
+                .catch(
+                  () => {}
+                );
+
+            } else {
+
+              entry.target.pause();
+
+            }
+
+          }
+        );
+
+      },
+
+      {
+        threshold: 0.4
+      }
+
+    );
+
+
+  videos.forEach(
+    video => {
+
+      videoObserver.observe(
+        video
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   SECTION NAVIGATION
+========================================================= */
+
+const sections =
+  document.querySelectorAll(
+    "section"
+  );
+
+
+const navLinks =
+  document.querySelectorAll(
+    ".section-nav a"
+  );
+
+
+window.addEventListener(
+  "scroll",
+  () => {
+
+    let current = "";
+
+
+    sections.forEach(
+      section => {
+
+        const top =
+          window.scrollY;
+
+
+        if (
+          top >=
+          section.offsetTop - 200
+        ) {
+
+          current =
+            section.id;
+
+        }
+
+      }
+    );
+
+
+    navLinks.forEach(
+      link => {
+
+        link.classList.remove(
+          "active"
+        );
+
+
+        if (
+          link.getAttribute(
+            "href"
+          ) ===
+          "#" + current
+        ) {
+
+          link.classList.add(
+            "active"
+          );
+
+        }
+
+      }
+    );
+
+  }
+);
+
+
+/* =========================================================
+   PROJECT TABS
+========================================================= */
+
+const tabs =
+  document.querySelectorAll(
+    ".tab-btn"
+  );
+
+
+const contents =
+  document.querySelectorAll(
+    ".project-content"
+  );
+
+
+tabs.forEach(
+  tab => {
+
+    tab.addEventListener(
+      "click",
+      () => {
+
+        tabs.forEach(
+          t =>
+            t.classList.remove(
+              "active"
+            )
+        );
+
+
+        contents.forEach(
+          content =>
+            content.classList.remove(
+              "active"
+            )
+        );
+
+
+        tab.classList.add(
+          "active"
+        );
+
+
+        document
+          .getElementById(
+            tab.dataset.tab
+          )
+          .classList.add(
+            "active"
+          );
+
+
+        localStorage.setItem(
+          "activeTab",
+          tab.dataset.tab
+        );
+
+      }
+    );
+
+  }
+);
+
+
+/* =========================================================
+   ESCAPE
+========================================================= */
+
+document.addEventListener(
+  "keydown",
+  event => {
+
+    if (
+      event.key === "Escape"
+    ) {
+
+      closeVideo();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   RESTORE TAB
+========================================================= */
+
 const savedTab =
-localStorage.getItem("activeTab");
-
-if(savedTab){
-
-  tabs.forEach(t =>
-    t.classList.remove("active")
+  localStorage.getItem(
+    "activeTab"
   );
 
-  contents.forEach(c =>
-    c.classList.remove("active")
+
+if (savedTab) {
+
+  tabs.forEach(
+    tab =>
+      tab.classList.remove(
+        "active"
+      )
   );
 
-  document
-    .querySelector(`[data-tab="${savedTab}"]`)
-    .classList.add("active");
 
-  document
-    .getElementById(savedTab)
-    .classList.add("active");
+  contents.forEach(
+    content =>
+      content.classList.remove(
+        "active"
+      )
+  );
+
+
+  const savedButton =
+    document.querySelector(
+      `[data-tab="${savedTab}"]`
+    );
+
+
+  const savedContent =
+    document.getElementById(
+      savedTab
+    );
+
+
+  savedButton?.classList.add(
+    "active"
+  );
+
+
+  savedContent?.classList.add(
+    "active"
+  );
+
+
+} else {
+
+  tabs[0]?.classList.add(
+    "active"
+  );
+
+  contents[0]?.classList.add(
+    "active"
+  );
 
 }
-if(savedTab){
 
-  tabs.forEach(t => t.classList.remove("active"));
-  contents.forEach(c => c.classList.remove("active"));
 
-  document
-    .querySelector(`[data-tab="${savedTab}"]`)
-    ?.classList.add("active");
+/* =========================================================
+   HTML ESCAPE
+========================================================= */
 
-  document
-    .getElementById(savedTab)
-    ?.classList.add("active");
+function escapeHTML(value) {
 
-}else{
+  return String(
+    value || ""
+  )
 
-  tabs[0].classList.add("active");
-  contents[0].classList.add("active");
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
 
 }
+
+
+/* =========================================================
+   START
+========================================================= */
+
+loadPortfolioContent();

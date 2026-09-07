@@ -17,7 +17,7 @@
 
       <div class="hero-banner">
         <div class="hero-avatar">
-          <img src="images/PROFILE PIC.jpg" alt="Avatar" />
+          <img id="heroImage" src="images/PROFILE PIC.jpg" alt="Avatar" />
         </div>
         <div class="hero-title">
           <h1>PORTFOLIO<span>2026</span></h1>
@@ -61,7 +61,7 @@
           <p class="greeting">HELLO, I AM</p>
           <h2>SAHIL MENGHANI</h2>
           <div class="profile-box">
-            <img src="images/PROFILE PIC.jpg" alt="Profile" />
+            <img id="contactImage" src="images/PROFILE PIC.jpg" alt="Contact" />
           </div>
         </div>
 
@@ -140,153 +140,12 @@
       <div id="video" class="project-content">
         <h2>VIDEO PROJECTS</h2>
 
-        <div class="gallery-grid reveal">
-          <div
-            class="project-card landscape"
-            onclick="openVideo('Video edits/babydoll.mp4')"
-          >
-            <video autoplay muted loop playsinline>
-              <source src="Video edits/babydoll.mp4" />
-            </video>
-          </div>
-          <div
-            class="project-card portrait"
-            onclick="openVideo('Video edits/Too mean.mp4')"
-          >
-            <video autoplay muted loop playsinline>
-              <source src="Video edits/Too mean.mp4" />
-            </video>
-          </div>
-          <div
-            class="project-card landscape"
-            onclick="openVideo('Video edits/DLA.mp4')"
-          >
-            <video autoplay muted loop playsinline>
-              <source src="Video edits/DLA.mp4" />
-            </video>
-          </div>
-
-          <div
-            class="project-card landscape"
-            onclick="openVideo('Video edits/kashmir.mp4')"
-          >
-            <video autoplay muted loop playsinline>
-              <source src="Video edits/kashmir.mp4" />
-            </video>
-          </div>
-          <div
-            class="project-card landscape"
-            onclick="openVideo('Video edits/tell me baby do wanna.mp4')"
-          >
-            <video autoplay muted loop playsinline>
-              <source src="Video edits/tell me baby do wanna.mp4" />
-            </video>
-          </div>
-          <div
-            class="project-card landscape"
-            onclick="openVideo('Video edits/time_2.mp4')"
-          >
-            <video autoplay muted loop playsinline>
-              <source src="Video edits/time_2.mp4" />
-            </video>
-          </div>
-
-          <div
-            class="project-card portrait"
-            onclick="openVideo('Video edits/final output (1).mp4')"
-          >
-            <video autoplay muted loop playsinline>
-              <source src="Video edits/final output (1).mp4" />
-            </video>
-          </div>
-          <div
-            class="project-card portrait"
-            onclick="openVideo('Video edits/Microwave edit.mp4')"
-          >
-            <video autoplay muted loop playsinline>
-              <source src="Video edits/Microwave edit.mp4" />
-            </video>
-          </div>
-          <div
-            class="project-card portrait"
-            onclick="openVideo('Video edits/LIL BABY.mp4')"
-          >
-            <video autoplay muted loop playsinline>
-              <source src="Video edits/LIL BABY.mp4" />
-            </video>
-          </div>
-        </div>
+        <div class="gallery-grid reveal" id="videoProjectsContainer"></div>
       </div>
       <div id="web" class="project-content">
         <h2>WEB PROJECTS</h2>
 
-        <div class="web-grid">
-          <div class="web-card">
-            <img src="web design/altf4.png" />
-
-            <h3>ALTF4 Clone</h3>
-
-            <p>
-              A personal learning project recreating the design and
-              functionality of the ALTf4 website using HTML, CSS, and
-              JavaScript. Built to strengthen front-end development and
-              responsive design skills.
-            </p>
-
-            <a href="https://altf5clone.vercel.app" target="_blank">
-              Live Demo
-            </a>
-            <a
-              href="https://github.com/sahilmenghani/clone-website"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Github
-            </a>
-          </div>
-          <div class="web-card">
-            <img src="web design/seedhemaut.png" />
-
-            <h3>Music Player</h3>
-
-            <p>
-              A custom interactive music player with album browsing, playlist
-              controls, real-time song information, and a dynamic visual
-              interface.
-            </p>
-
-            <a href="https://seedhemaut-nine.vercel.app" target="_blank">
-              Live Demo
-            </a>
-            <a
-              href="https://github.com/sahilmenghani/seedhemaut"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Github
-            </a>
-          </div>
-          <div class="web-card">
-            <img src="web design/portfolio.png" />
-
-            <h3>Portfolio 2026</h3>
-
-            <p>
-              Personal portfolio showcasing video editing and web development.
-            </p>
-
-            <a href="https://sahilmenghani.vercel.app" target="_blank">
-              Live Demo
-            </a>
-            <a
-              href="https://github.com/sahilmenghani/sahilmenghani"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Github
-            </a>
-          </div>
-        </div>
+        <div class="web-grid" id="webProjectsContainer"></div>
       </div>
     </section>
 

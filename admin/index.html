@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Portfolio Admin</title>
+
+    <link rel="stylesheet" href="admin.css" />
+  </head>
+
+  <body>
+    <!-- =====================================================
+       LOGIN
+  ====================================================== -->
+
+    <div id="loginScreen" class="login-screen">
+      <div class="login-box">
+        <div class="admin-logo">SM</div>
+
+        <h1>Portfolio Admin</h1>
+
+        <p>Sign in to manage your portfolio.</p>
+
+        <form id="loginForm">
+          <input type="email" id="loginEmail" placeholder="Email" required />
+
+          <input
+            type="password"
+            id="loginPassword"
+            placeholder="Password"
+            required
+          />
+
+          <button type="submit">LOGIN</button>
+        </form>
+
+        <p id="loginMessage"></p>
+      </div>
+    </div>
+
+    <!-- =====================================================
+       ADMIN PANEL
+  ====================================================== -->
+
+    <div id="adminPanel" class="admin-panel hidden">
+      <header class="admin-header">
+        <div>
+          <span class="eyebrow">PORTFOLIO CONTROL</span>
+          <h1>Admin Dashboard</h1>
+        </div>
+
+        <div class="header-actions">
+          <a href="../index.html" target="_blank" class="view-site">
+            VIEW SITE ↗
+          </a>
+
+          <button id="logoutBtn">LOGOUT</button>
+        </div>
+      </header>
+
+      <main class="dashboard">
+        <!-- =================================================
+           SITE IMAGES
+      ================================================== -->
+
+        <section class="admin-section">
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">01</span>
+              <h2>Website Images</h2>
+            </div>
+
+            <p>Change the images used throughout your portfolio.</p>
+          </div>
+
+          <div class="image-grid">
+            <!-- HERO -->
+
+            <div class="admin-card">
+              <div class="card-top">
+                <h3>Landing Page</h3>
+                <span>HERO IMAGE</span>
+              </div>
+
+              <div class="image-preview" id="heroPreview"></div>
+
+              <input type="file" id="heroImage" accept="image/*" />
+
+              <button class="save-btn" onclick="saveSiteImage('hero')">
+                CHANGE IMAGE
+              </button>
+            </div>
+
+            <!-- ABOUT -->
+
+            <div class="admin-card">
+              <div class="card-top">
+                <h3>About Section</h3>
+                <span>ABOUT IMAGE</span>
+              </div>
+
+              <div class="image-preview" id="aboutPreview"></div>
+
+              <input type="file" id="aboutImage" accept="image/*" />
+
+              <button class="save-btn" onclick="saveSiteImage('about')">
+                CHANGE IMAGE
+              </button>
+            </div>
+
+            <!-- CONTACT -->
+
+            <div class="admin-card">
+              <div class="card-top">
+                <h3>Contact Section</h3>
+                <span>CONTACT IMAGE</span>
+              </div>
+
+              <div class="image-preview" id="contactPreview"></div>
+
+              <input type="file" id="contactImage" accept="image/*" />
+
+              <button class="save-btn" onclick="saveSiteImage('contact')">
+                CHANGE IMAGE
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- =================================================
+           WEB PROJECTS
+      ================================================== -->
+
+        <section class="admin-section">
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">02</span>
+              <h2>Web Projects</h2>
+            </div>
+
+            <button class="add-btn" onclick="openWebProjectForm()">
+              + ADD PROJECT
+            </button>
+          </div>
+
+          <div id="webProjectsList"></div>
+        </section>
+
+        <!-- =================================================
+           VIDEO PROJECTS
+      ================================================== -->
+
+        <section class="admin-section">
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">03</span>
+              <h2>Video Editing</h2>
+            </div>
+
+            <button class="add-btn" onclick="openVideoProjectForm()">
+              + ADD VIDEO
+            </button>
+          </div>
+
+          <div id="videoProjectsList"></div>
+        </section>
+      </main>
+    </div>
+
+    <!-- =====================================================
+       WEB PROJECT MODAL
+  ====================================================== -->
+
+    <div class="modal hidden" id="webProjectModal">
+      <div class="modal-box">
+        <button class="modal-close" onclick="closeWebProjectForm()">✕</button>
+
+        <span class="eyebrow">WEB PROJECT</span>
+
+        <h2 id="webModalTitle">Add Web Project</h2>
+
+        <form id="webProjectForm">
+          <input type="hidden" id="webProjectId" />
+
+          <label> Project Title </label>
+
+          <input
+            type="text"
+            id="webTitle"
+            placeholder="My Awesome Website"
+            required
+          />
+
+          <label> Description </label>
+
+          <textarea
+            id="webDescription"
+            placeholder="Describe your project..."
+            required
+          ></textarea>
+
+          <label> Project Image </label>
+
+          <input type="file" id="webImage" accept="image/*" />
+
+          <div id="webImageCurrent" class="current-file"></div>
+
+          <label> Live Website URL </label>
+
+          <input type="url" id="webLiveUrl" placeholder="https://example.com" />
+
+          <label> GitHub URL </label>
+
+          <input
+            type="url"
+            id="webGithubUrl"
+            placeholder="https://github.com/username/project"
+          />
+
+          <button type="submit" class="save-main">SAVE PROJECT</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- =====================================================
+       VIDEO PROJECT MODAL
+  ====================================================== -->
+
+    <div class="modal hidden" id="videoProjectModal">
+      <div class="modal-box">
+        <button class="modal-close" onclick="closeVideoProjectForm()">✕</button>
+
+        <span class="eyebrow">VIDEO EDIT</span>
+
+        <h2 id="videoModalTitle">Add Video Edit</h2>
+
+        <form id="videoProjectForm">
+          <input type="hidden" id="videoProjectId" />
+
+          <label> Video Title </label>
+
+          <input type="text" id="videoTitle" placeholder="My Latest Edit" />
+
+          <label> Video File </label>
+
+          <input type="file" id="videoFile" accept="video/*" />
+
+          <div id="videoCurrent" class="current-file"></div>
+
+          <button type="submit" class="save-main">SAVE VIDEO</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="toast"></div>
+
+    <!-- SUPABASE -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="config.js"></script>
+    <script src="admin.js"></script>
+  </body>
+</html>
