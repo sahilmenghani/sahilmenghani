@@ -780,16 +780,7 @@ section {
 }
 #projects {
   position: relative;
-
-  /* Was justify-content: center (inherited from the generic `section`
-     rule). Centering vertically meant the title/tabs block moved up or
-     down depending on how many projects were loaded (0 items = short
-     content = different vertical center than 6 items). Anchoring to the
-     top keeps the title in the same place regardless of content amount. */
-  justify-content: flex-start;
-  padding-top: 170px;
 }
-
 .project-tabs {
   display: flex;
 
@@ -797,15 +788,11 @@ section {
 
   gap: 15px;
 
-  /* Positioned absolutely so it always sits a fixed distance below the
-     .section-nav bar (top: 40px), instead of floating wherever it lands
-     in the flex flow. */
-  position: absolute;
-  top: 95px;
-  left: 50%;
-  transform: translateX(-50%);
+  position: relative;
 
-  margin: 0;
+  margin-top: 20px;
+
+  margin-bottom: 10px;
 }
 
 .tab-btn {
@@ -1068,14 +1055,8 @@ section {
 
   /* PROJECTS */
 
-  #projects {
-    padding-top: 140px;
-  }
-
   .project-tabs {
     flex-wrap: wrap;
-    width: 90%;
-    top: 68px;
   }
   .project-content {
     opacity: 0;

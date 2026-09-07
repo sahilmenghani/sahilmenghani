@@ -401,7 +401,6 @@ async function saveSiteImage(type) {
 
 
         const {
-            data,
             error
         } = await supabaseClient
 
@@ -416,31 +415,12 @@ async function saveSiteImage(type) {
 
             })
 
-            .eq("id", 1)
-
-            .select();
+            .eq("id", 1);
 
 
         if (error) {
 
             throw error;
-
-        }
-
-        // Supabase does NOT return an error when a row-level-security
-        // policy silently blocks the update, or when no row with id = 1
-        // exists yet - it just reports success with 0 rows changed.
-        // That's the "nothing happens when I save" symptom. Surface it
-        // as a real error instead of pretending it worked.
-        if (!data || data.length === 0) {
-
-            throw new Error(
-                "The image URL was uploaded to Storage, but the " +
-                "site_content row wasn't updated. Check that a row " +
-                "with id = 1 exists in the site_content table, and " +
-                "that its Row Level Security UPDATE policy allows " +
-                "this logged-in user."
-            );
 
         }
 
@@ -820,7 +800,6 @@ async function saveWebProject(event) {
 
 
             const {
-                data,
                 error
             } = await supabaseClient
 
@@ -828,9 +807,7 @@ async function saveWebProject(event) {
 
                 .update(updateData)
 
-                .eq("id", id)
-
-                .select();
+                .eq("id", id);
 
 
             if (error) {
@@ -839,20 +816,9 @@ async function saveWebProject(event) {
 
             }
 
-            if (!data || data.length === 0) {
-
-                throw new Error(
-                    "Update returned no rows. This project's id may " +
-                    "no longer exist, or Row Level Security is " +
-                    "blocking this update for the current user."
-                );
-
-            }
-
         } else {
 
             const {
-                data,
                 error
             } = await supabaseClient
 
@@ -870,24 +836,12 @@ async function saveWebProject(event) {
 
                     github_url: githubUrl
 
-                })
-
-                .select();
+                });
 
 
             if (error) {
 
                 throw error;
-
-            }
-
-            if (!data || data.length === 0) {
-
-                throw new Error(
-                    "Insert returned no rows. Row Level Security is " +
-                    "likely blocking INSERT on web_projects for the " +
-                    "current user."
-                );
 
             }
 
@@ -1341,7 +1295,6 @@ async function saveVideoProject(event) {
 
 
             const {
-                data,
                 error
             } = await supabaseClient
 
@@ -1349,9 +1302,7 @@ async function saveVideoProject(event) {
 
                 .update(updateData)
 
-                .eq("id", id)
-
-                .select();
+                .eq("id", id);
 
 
             if (error) {
@@ -1360,20 +1311,9 @@ async function saveVideoProject(event) {
 
             }
 
-            if (!data || data.length === 0) {
-
-                throw new Error(
-                    "Update returned no rows. This video's id may no " +
-                    "longer exist, or Row Level Security is blocking " +
-                    "this update for the current user."
-                );
-
-            }
-
         } else {
 
             const {
-                data,
                 error
             } = await supabaseClient
 
@@ -1386,24 +1326,12 @@ async function saveVideoProject(event) {
                     video_url:
                         videoUrl
 
-                })
-
-                .select();
+                });
 
 
             if (error) {
 
                 throw error;
-
-            }
-
-            if (!data || data.length === 0) {
-
-                throw new Error(
-                    "Insert returned no rows. Row Level Security is " +
-                    "likely blocking INSERT on video_projects for the " +
-                    "current user."
-                );
 
             }
 
